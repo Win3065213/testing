@@ -21,8 +21,18 @@ const botResponses = [
   "We offer 24/7 customer support via phone, email, and live chat. Our team of experts is always ready to assist you with any questions or issues."
 ]
 
+interface Message {
+  id: number; // Unique identifier for the message
+  sender: string; // Sender of the message
+  text: string; // Message text content
+  options?: string[]; // Optional: Array of options related to the message
+  optionSelected?: boolean; // Optional: Whether an option has been selected
+  isHelpful?: boolean; // Optional: Indicates if the message is marked as helpful
+  helpfulnessSelected?: boolean; // Optional: Whether helpfulness has been selected
+}
+
 export default function Component() {
-  const [messages, setMessages] = useState([
+  const [messages, setMessages] = useState<Message[]>([
     { id: 1, sender: 'bot', text: "Welcome to Jone Jones 3D Printers! How can I assist you today?" },
     { id: 2, sender: 'bot', text: "Here are some questions you might be interested in:", options: initialQuestions, optionSelected: false }
   ])
@@ -54,7 +64,7 @@ export default function Component() {
 
   const handleHelpfulResponse = useCallback((isHelpful: boolean) => {
     setMessages(prev => prev.map(msg => 
-      msg.isHelpful ? { ...msg, helpfulnessSelected: true } : msg
+      msg?.isHelpful ? { ...msg, helpfulnessSelected: true } : msg
     ));
     const followUpQuestions = isHelpful
     ? [
