@@ -64,7 +64,7 @@ export default function Component() {
 
   const handleHelpfulResponse = useCallback((isHelpful: boolean) => {
     setMessages(prev => prev.map(msg => 
-      msg?.isHelpful ? { ...msg, helpfulnessSelected: true } : msg
+      msg.isHelpful ? { ...msg, helpfulnessSelected: true } : msg
     ));
     const followUpQuestions = isHelpful
     ? [
@@ -115,9 +115,9 @@ export default function Component() {
                       <Button
                         key={index}
                         variant="outline"
-                        className="w-full text-left justify-start bg-white text-gray-800 border-gray-300 hover:bg-gray-100 whitespace-normal"
+                        className="w-full text-left justify-start bg-white text-gray-800 border-gray-300 hover:bg-gray-100 whitespace-normal disabled:opacity-50"
                         onClick={() => handleOptionClick(option)}
-                        disabled={message.optionSelected}
+                        disabled={message.id !== messages[messages.length - 1].id}
                       >
                         {message.id === 2 && <HelpCircle className="mr-2 h-4 w-4 flex-shrink-0" />}
                         <span>{option}</span>
@@ -129,18 +129,18 @@ export default function Component() {
                   <div className="mt-2 space-y-2">
                     <Button
                       variant="outline"
-                      className="w-full text-left justify-start bg-white text-gray-800 border-gray-300 hover:bg-gray-100"
+                      className="w-full text-left justify-start bg-white text-gray-800 border-gray-300 hover:bg-gray-100 disabled:opacity-50"
                       onClick={() => handleHelpfulResponse(true)}
-                      disabled={message.helpfulnessSelected}
+                      disabled={message.id !== messages[messages.length - 1].id}
                     >
                       <ThumbsUp className="mr-2 h-4 w-4" />
                       Yes
                     </Button>
                     <Button
                       variant="outline"
-                      className="w-full text-left justify-start bg-white text-gray-800 border-gray-300 hover:bg-gray-100"
+                      className="w-full text-left justify-start bg-white text-gray-800 border-gray-300 hover:bg-gray-100 disabled:opacity-50"
                       onClick={() => handleHelpfulResponse(false)}
-                      disabled={message.helpfulnessSelected}
+                      disabled={message.id !== messages[messages.length - 1].id}
                     >
                       <ThumbsDown className="mr-2 h-4 w-4" />
                       No
