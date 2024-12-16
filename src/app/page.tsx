@@ -96,7 +96,7 @@ export default function Component() {
     <div className="w-screen h-screen flex items-center justify-center bg-gray-100 p-4">
       <div className="w-full max-w-2xl h-full max-h-[600px] flex flex-col rounded-lg overflow-hidden bg-white shadow-xl">
         <div className="bg-[#0098a0] text-white p-4">
-          <h1 className="text-xl font-bold">Jone Jones 3D Printers Chat</h1>
+          <h1 className="text-xl font-bold">Jon Jones 3D Printers Chat</h1>
         </div>
         <ScrollArea className="flex-grow p-4 scroll-area bg-gray-50">
           {messages.map((message) => (
