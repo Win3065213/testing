@@ -115,7 +115,7 @@ export default function Component() {
                       <Button
                         key={index}
                         variant="outline"
-                        className="w-full text-left justify-start bg-white text-gray-800 border-gray-300 hover:bg-gray-100 whitespace-normal disabled:opacity-50"
+                        className="w-full h-fit text-left justify-start bg-white text-gray-800 border-gray-300 hover:bg-gray-100 whitespace-normal disabled:opacity-50"
                         onClick={() => handleOptionClick(option)}
                         disabled={message.id !== messages[messages.length - 1].id}
                       >
