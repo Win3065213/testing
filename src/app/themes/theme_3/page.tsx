@@ -1,9 +1,10 @@
-"use client"
+'use client'
+
 import React, { useState, useCallback, useEffect } from 'react'
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { ScrollArea } from "@/components/ui/scroll-area"
-import { Send, HelpCircle, ThumbsUp, ThumbsDown } from 'lucide-react'
+import { Send, Maximize2, X, HelpCircle, ThumbsUp, ThumbsDown } from 'lucide-react'
 
 const initialQuestions = [
   "What types of 3D printers do you offer?",
@@ -22,13 +23,13 @@ const botResponses = [
 ]
 
 interface Message {
-  id: number; // Unique identifier for the message
-  sender: string; // Sender of the message
-  text: string; // Message text content
-  options?: string[]; // Optional: Array of options related to the message
-  optionSelected?: boolean; // Optional: Whether an option has been selected
-  isHelpful?: boolean; // Optional: Indicates if the message is marked as helpful
-  helpfulnessSelected?: boolean; // Optional: Whether helpfulness has been selected
+    id: number; // Unique identifier for the message
+    sender: string; // Sender of the message
+    text: string; // Message text content
+    options?: string[]; // Optional: Array of options related to the message
+    optionSelected?: boolean; // Optional: Whether an option has been selected
+    isHelpful?: boolean; // Optional: Indicates if the message is marked as helpful
+    helpfulnessSelected?: boolean; // Optional: Whether helpfulness has been selected
 }
 
 export default function Component() {
@@ -67,16 +68,16 @@ export default function Component() {
       msg.isHelpful ? { ...msg, helpfulnessSelected: true } : msg
     ));
     const followUpQuestions = isHelpful
-    ? [
-        "Can you tell me more about the print quality of your 3D printers?",
-        "What software is compatible with your 3D printers?",
-        "How long does it typically take to print a small object?"
-      ]
-    : [
-        "Can you explain the difference between FDM and SLA printers?",
-        "What are the maintenance requirements for your 3D printers?",
-        "Do you offer any bundle deals for beginners?"
-      ];
+      ? [
+          "Can you tell me more about the print quality of your 3D printers?",
+          "What software is compatible with your 3D printers?",
+          "How long does it typically take to print a small object?"
+        ]
+      : [
+          "Can you explain the difference between FDM and SLA printers?",
+          "What are the maintenance requirements for your 3D printers?",
+          "Do you offer any bundle deals for beginners?"
+        ];
 
     setMessages(prev => [
       ...prev, 
@@ -94,32 +95,39 @@ export default function Component() {
 
   return (
     <div className="w-screen h-screen flex items-center justify-center bg-gray-100 p-4">
-      <div className="w-full max-w-2xl h-full max-h-[600px] flex flex-col rounded-lg overflow-hidden bg-white shadow-xl">
-        <div className="bg-[#0098a0] text-white p-4">
-          <h1 className="text-xl font-bold">Jone Jones 3D Printers Chat</h1>
+      <div className="w-full max-w-2xl h-full max-h-[600px] flex flex-col rounded-lg overflow-hidden bg-white shadow-xl border relative">
+        <div className="absolute top-2 right-2 flex gap-2 z-10">
+          <button className="p-2 rounded hover:bg-gray-100">
+            <Maximize2 className="w-5 h-5 text-black" />
+          </button>
+          <button className="p-2 rounded hover:bg-gray-100">
+            <X className="w-5 h-5 text-black" />
+          </button>
         </div>
-        <ScrollArea className="flex-grow p-4 scroll-area bg-gray-50">
-          {messages.map((message) => (
+        <ScrollArea className="flex-grow p-4 scroll-area">
+          {messages.map((message, index) => (
             <div key={message.id} className="mb-4">
               <div
                 className={`p-3 rounded-lg ${
                   message.sender === 'user'
-                    ? 'bg-[#0098a0] text-white ml-auto'
-                    : 'bg-white text-gray-800 border border-gray-300'
+                    ? 'bg-white border border-gray-300 ml-auto'
+                    : 'bg-white border border-gray-300'
                 } ${message.sender === 'user' ? 'max-w-[80%] ml-auto' : 'max-w-[80%]'}`}
               >
-                {message.text}
+                <p className="text-[#00838f]">
+                  {message.text}
+                </p>
                 {message.options && (
                   <div className="mt-2 space-y-2">
-                    {message.options.map((option, index) => (
+                    {message.options.map((option, optionIndex) => (
                       <Button
-                        key={index}
+                        key={optionIndex}
                         variant="outline"
-                        className="w-full h-fit text-left justify-start bg-white text-gray-800 border-gray-300 hover:bg-gray-100 whitespace-normal disabled:opacity-50"
+                        className="w-full h-fit text-left justify-start bg-white text-[#00838f] border-gray-300 hover:bg-gray-100 hover:text-[#00838f] whitespace-normal disabled:opacity-50 disabled:hover:bg-white"
                         onClick={() => handleOptionClick(option)}
-                        disabled={message.id !== messages[messages.length - 1].id}
+                        disabled={index !== messages.length - 1}
                       >
-                        {message.id === 2 && <HelpCircle className="mr-2 h-4 w-4 flex-shrink-0" />}
+                        {message.id === 2 && <HelpCircle className="text-black mr-2 h-4 w-4 flex-shrink-0" />}
                         <span>{option}</span>
                       </Button>
                     ))}
@@ -129,20 +137,20 @@ export default function Component() {
                   <div className="mt-2 space-y-2">
                     <Button
                       variant="outline"
-                      className="w-full text-left justify-start bg-white text-gray-800 border-gray-300 hover:bg-gray-100 disabled:opacity-50"
+                      className="w-full text-left justify-start bg-white text-[#00838f] border-gray-300 hover:bg-gray-100 hover:text-[#00838f] whitespace-normal disabled:opacity-50 disabled:hover:bg-white"
                       onClick={() => handleHelpfulResponse(true)}
-                      disabled={message.id !== messages[messages.length - 1].id}
+                      disabled={index !== messages.length - 1}
                     >
-                      <ThumbsUp className="mr-2 h-4 w-4" />
+                      <ThumbsUp className="text-black mr-2 h-4 w-4" />
                       Yes
                     </Button>
                     <Button
                       variant="outline"
-                      className="w-full text-left justify-start bg-white text-gray-800 border-gray-300 hover:bg-gray-100 disabled:opacity-50"
+                      className="w-full text-left justify-start bg-white text-[#00838f] border-gray-300 hover:bg-gray-100 hover:text-[#00838f] whitespace-normal disabled:opacity-50 disabled:hover:bg-white"
                       onClick={() => handleHelpfulResponse(false)}
-                      disabled={message.id !== messages[messages.length - 1].id}
+                      disabled={index !== messages.length - 1}
                     >
-                      <ThumbsDown className="mr-2 h-4 w-4" />
+                      <ThumbsDown className="text-black mr-2 h-4 w-4" />
                       No
                     </Button>
                   </div>
@@ -151,7 +159,7 @@ export default function Component() {
             </div>
           ))}
         </ScrollArea>
-        <div className="p-4 bg-gray-100 border-t border-gray-200">
+        <div className="p-4 bg-gray-50 border-t border-gray-200">
           <div className="flex gap-2">
             <Input
               placeholder="Type your message..."
@@ -160,7 +168,7 @@ export default function Component() {
               onKeyPress={(e) => e.key === 'Enter' && handleSend(input)}
               className="flex-grow bg-white text-gray-800 border-gray-300"
             />
-            <Button onClick={() => handleSend(input)} className="bg-[#0098a0] text-white hover:bg-[#007a80]">
+            <Button onClick={() => handleSend(input)} className="bg-white text-[#00838f] border border-[#00838f] hover:bg-[#00838f] hover:text-white">
               <Send className="h-4 w-4 mr-2" />
               <span className="sr-only">Send</span>
             </Button>
